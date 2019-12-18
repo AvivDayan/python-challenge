@@ -53,6 +53,8 @@ class server:
                         sockets[s].inBuffer += data
                         sockets[s].inSize -= len(data)
                         if sockets[s].inSize == 0:
+                            #if were done receiving a request from a socket, 
+                            #we are now ready to generate a response and it send back.
                             self.create_out_buffer(sockets[s])
                             outputs.append(s)
                     else:
@@ -85,6 +87,8 @@ class server:
             socket.inBuffer.decode()
             socket.request_body = json.loads(socket.inBuffer)
             command = socket.request_body["command"]
+            #if the command on the request is a supported command, we will generate a response according to the command
+            #callback, otherwise we return an error to the client
             response= self.actions[command](socket) if command in self.actions else {
                 'error': "no such command"}
             socket.inBuffer = b''

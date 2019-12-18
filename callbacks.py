@@ -3,6 +3,9 @@ import datetime
 import os
 downloads = {}
 
+#command callbacks expect a socketData object as an argument,
+#then uses its request_body field to generate a response.
+#lastly the response is returned.
 
 def download_callback(socketData):
     response = {}
